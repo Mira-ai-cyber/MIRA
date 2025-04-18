@@ -36,3 +36,22 @@ def index():
 
 if __name__ == "__main__":
     app.run()
+
+import os
+import requests
+
+def send_message():
+    headers = {
+        "Authorization": f"Bearer {os.getenv('LINE_ACCESS_TOKEN')}",
+        "Content-Type": "application/json"
+    }
+    body = {
+        "to": os.getenv('USER_ID'),  # あとで自分のLINE User IDを設定するよ！
+        "messages": [
+            {
+                "type": "text",
+                "text": "おはようございます☀️ 今日追加したい予定はありますか？✨"
+            }
+        ]
+    }
+    requests.post("https://api.line.me/v2/bot/message/push", headers=headers, json=body)

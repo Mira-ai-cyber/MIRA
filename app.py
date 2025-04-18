@@ -35,4 +35,5 @@ def index():
     return "Hello, world!"
 
 if __name__ == "__main__":
+    send_message()  # 
     app.run(host="0.0.0.0", port=10000)

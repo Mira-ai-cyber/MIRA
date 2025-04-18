@@ -8,7 +8,8 @@ app = Flask(__name__)
 # LINEアクセストークンとユーザーID
 LINE_ACCESS_TOKEN = os.getenv("LINE_ACCESS_TOKEN")
 USER_ID = os.getenv("USER_ID")
-
+print(f"LINE_ACCESS_TOKEN: {LINE_ACCESS_TOKEN}")
+print(f"USER_ID: {USER_ID}")
 def send_message():
     headers = {
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}",

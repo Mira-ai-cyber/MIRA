@@ -55,3 +55,4 @@ def send_message():
         ]
     }
     requests.post("https://api.line.me/v2/bot/message/push", headers=headers, json=body)
+send_message()

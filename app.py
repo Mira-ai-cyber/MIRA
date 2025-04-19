@@ -17,7 +17,7 @@ def send_message():
         }
     body = {
         "to": USER_ID,
-    　　　"messages": [
+        "messages": [
             {
                 "type": "text",
                 "text": "おはようございます☀️ 今日追加したい予定はありますか？✨"

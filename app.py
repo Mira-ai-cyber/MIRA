@@ -50,7 +50,7 @@ def webhook():
             user_id = event["source"]["userId"]
 
             # メッセージをパースしてリマインダー登録試みる
-                        match = re.search(r"(\d{1,2})時.*?(.*)", user_message)
+            match = re.search(r"(\d{1,2})時.*?(.*)", user_message)
             if match:
                 hour = int(match.group(1))
                 task = match.group(2).strip()

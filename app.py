@@ -36,7 +36,7 @@ def index():
     return "Hello, world!"
 if __name__ == "__main__":
     print(f"LINE_ACCESS_TOKEN: {LINE_ACCESS_TOKEN}")
-print(f"USER_ID: {USER_ID}")
+    print(f"USER_ID: {USER_ID}")
     send_message()  # ⭐️起動時にメッセージ送る！
     app.run(host="0.0.0.0", port=10000)
     print("Sending message now...")  # ⭐️関数が呼ばれたチェック

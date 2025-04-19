@@ -71,22 +71,6 @@ def webhook():
                 send_message(user_id, reply_text)
 
     return "OK", 200
-app.route("/", methods=["POST"])
-def webhook():
-    body = request.json
-    print("Received body:", body)
-
-    events = body.get("events", [])
-    for event in events:
-        if event.get("type") == "message" and event.get("message", {}).get("type") == "text":
-            user_message = event["message"]["text"]
-            user_id = event["source"]["userId"]
-
-            # 受け取ったメッセージに返信する
-            reply_text = f"メッセージ受け取りました🩷: {user_message}"
-            send_message(user_id, reply_text)
-
-    return "OK", 200
 
 # 動作確認用のGETリクエスト（ブラウザアクセス用）
 @app.route("/", methods=["GET"])

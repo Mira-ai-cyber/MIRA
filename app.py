@@ -71,7 +71,9 @@ def webhook():
                 # 通常返信
                 reply_text = f"メッセージ受け取りました🩷: {user_message}"
                 send_message(user_id, reply_text)
-
+print("Scheduled jobs:")
+for job in scheduler.get_jobs():
+    print(job)
     return "OK", 200
 
 # 動作確認用GETリクエスト

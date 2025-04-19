@@ -66,6 +66,10 @@ def webhook():
                     hour=hour_utc,
                     minute=0
                 )
+                print("✅ リマインダー登録成功！現在のジョブ一覧:")
+for job in scheduler.get_jobs():
+    print(job)
+    
                 send_message(user_id, f"✅ {hour}時に「{task}」のリマインダーを登録しました！")
             else:
                 # 通常返信

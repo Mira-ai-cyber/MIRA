@@ -37,7 +37,41 @@ scheduler.add_job(scheduled_message, 'cron', hour=8, minute=0)
 scheduler.start()
 
 # LINE Webhookエンドポイント
+import re  # ファイル上に1回だけ追加！
+
 @app.route("/", methods=["POST"])
+def webhook():
+    body = request.json
+    print("Received body:", body)
+
+    events = body.get("events", [])
+    for event in events:
+        if event.get("type") == "message" and event.get("message", {}).get("type") == "text":
+            user_message = event["message"]["text"]
+            user_id = event["source"]["userId"]
+
+            # スケジュールっぽいメッセージか確認してパース
+            match = re.search(r"(\\d{1,2})時.*?(.*)", user_message)
+            if match:
+                hour = int(match.group(1))
+                task = match.group(2).strip()
+
+                # スケジューラーにリマインダーを登録
+                scheduler.add_job(
+                    send_message,
+                    'cron',
+                    args=[user_id, f"🔔リマインダー: {task} の時間です！"],
+                    hour=hour,
+                    minute=0
+                )
+                send_message(user_id, f"✅ {hour}時に「{task}」のリマインダーを登録しました！")
+            else:
+                # 通常返信
+                reply_text = f"メッセージ受け取りました🩷: {user_message}"
+                send_message(user_id, reply_text)
+
+    return "OK", 200
+app.route("/", methods=["POST"])
 def webhook():
     body = request.json
     print("Received body:", body)

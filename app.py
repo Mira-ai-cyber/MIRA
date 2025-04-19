@@ -15,9 +15,9 @@ def send_message():
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}",
         "Content-Type": "application/json"
         }
-        body = {
-        "to": USER_ID, 
-        "messages": [
+    body = {
+    　　　"to": USER_ID, 
+    　　　"messages": [
             {
                 "type": "text",
                 "text": "おはようございます☀️ 今日追加したい予定はありますか？✨"

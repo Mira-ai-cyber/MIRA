@@ -14,6 +14,7 @@ def send_message():
     headers = {
         "Authorization": f"Bearer {LINE_ACCESS_TOKEN}",
         "Content-Type": "application/json"
+        }
         body = {
         "to": USER_ID, 
         "messages": [

@@ -2,7 +2,7 @@ from flask import Flask, request
 import requests
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
-import re  # ここで正しく読み込む！
+import re
 
 app = Flask(__name__)
 
@@ -28,13 +28,13 @@ def send_message(to, text):
     response = requests.post("https://api.line.me/v2/bot/message/push", headers=headers, json=body)
     print("Send message response:", response.status_code, response.text)
 
-# 毎朝8時に送るリマインダーメッセージ
+# 毎朝8時に送るリマインダーメッセージ（日本時間）
 def scheduled_message():
     send_message(USER_ID, "おはようございます☀️ 今日追加したい予定はありますか？✨")
 
 # スケジューラー設定
 scheduler = BackgroundScheduler()
-scheduler.add_job(scheduled_message, 'cron', hour=8, minute=0)
+scheduler.add_job(scheduled_message, 'cron', hour=(8 - 9) % 24, minute=0)  # 日本時間8時→UTC-9補正
 scheduler.start()
 
 # LINE Webhookエンドポイント
@@ -55,12 +55,15 @@ def webhook():
                 hour = int(match.group(1))
                 task = match.group(2).strip()
 
+                # 日本時間からUTCに変換
+                hour_utc = (hour - 9) % 24
+
                 # スケジューラーにリマインダー登録
                 scheduler.add_job(
                     send_message,
                     'cron',
                     args=[user_id, f"🔔リマインダー: {task} の時間です！"],
-                    hour=hour,
+                    hour=hour_utc,
                     minute=0
                 )
                 send_message(user_id, f"✅ {hour}時に「{task}」のリマインダーを登録しました！")
@@ -71,7 +74,7 @@ def webhook():
 
     return "OK", 200
 
-# 動作確認用のGETリクエスト（ブラウザアクセス用）
+# 動作確認用GETリクエスト
 @app.route("/", methods=["GET"])
 def index():
     return "Hello, world!"

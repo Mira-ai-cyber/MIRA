@@ -68,6 +68,16 @@ def webhook():
             else:
                 # 通常返信
                 reply_text = f"メッセージ受け取りました🩷: {user_message}"
+                            # メッセージから時間を探してスケジュール登録
+            import re
+            match = re.search(r"(\d{1,2})時", user_message)
+            if match:
+                hour = int(match.group(1))
+                # リマインダージョブを登録
+                def reminder():
+                    send_message(user_id, f"⏰リマインダー：{hour}時の予定です！")
+                scheduler.add_job(reminder, 'cron', hour=hour, minute=0)
+                send_message(user_id, f"{hour}時にリマインダーをセットしました✨")
                 send_message(user_id, reply_text)
 
     return "OK", 200

@@ -16,7 +16,7 @@ def send_message():
         "Content-Type": "application/json"
         }
     body = {
-    　　　"to": USER_ID, 
+        "to": USER_ID,
     　　　"messages": [
             {
                 "type": "text",

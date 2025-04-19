@@ -58,6 +58,19 @@ def webhook():
                 # 日本時間からUTCに変換
                 hour_utc = (hour - 9) % 24
 
+                        scheduler.add_job(
+            send_message,
+            'cron',
+            args=[user_id, f"🔔リマインダー: {task} の時間です！"],
+            hour=hour,
+            minute=0
+        )
+
+    print("✅ リマインダー登録成功！現在のジョブ一覧:")
+        for job in scheduler.get_jobs():
+            print(job)
+
+    send_message(user_id, f"✅ {hour}時に「{task}」のリマインダーを登録しました！")
                 # スケジューラーにリマインダー登録
                 scheduler.add_job(
                     send_message,
@@ -66,15 +79,11 @@ def webhook():
                     hour=hour_utc,
                     minute=0
                 )
-                print("✅ リマインダー登録成功！現在のジョブ一覧:")
-for job in scheduler.get_jobs():
-    print(job)
-    
-                send_message(user_id, f"✅ {hour}時に「{task}」のリマインダーを登録しました！")
+                
             else:
                 # 通常返信
                 reply_text = f"メッセージ受け取りました🩷: {user_message}"
-                send_message(user_id, reply_text)
+    send_message(user_id, reply_text)
     print("Scheduled jobs:")
     for job in scheduler.get_jobs():
         print(job)
